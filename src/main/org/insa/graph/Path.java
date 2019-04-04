@@ -277,8 +277,11 @@ public class Path {
      */
     public double getMinimumTravelTime() {
         double Time = 0.0;
-        for (Arc My_Arc : this.arcs) {
-        	Time += My_Arc.getMinimumTravelTime();
+        Arc arc;
+        
+        for (int i =0; i<arcs.size(); i++) {
+        	arc=arcs.get(i);
+        	Time += arc.getMinimumTravelTime();
         }
         return Time;
     }
