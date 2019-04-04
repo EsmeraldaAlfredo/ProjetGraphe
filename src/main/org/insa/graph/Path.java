@@ -18,7 +18,9 @@ import java.util.List;
  */
 public class Path {
 
-    /**
+    private static final boolean  = false;
+
+	/**
      * Create a new path that goes through the given list of nodes (in order),
      * choosing the fastest route if multiple are available.
      * 
@@ -33,9 +35,25 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
-            throws IllegalArgumentException {
+    		throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        boolean Fatest_Path = false;
+        Arc Fatest_Arc = null;
+        if (nodes.size() == 0) { //il y a aucun noeud 
+        	return new Path(graph);
+        }
+        else if (nodes.size() ==1 ) { // il y a un seul noeud
+        	return new Path(graph, nodes.get(0));
+        }
+        else { // il y a au moins 2 noeud
+        	for (Node My_node : this.nodes) {
+        		
+        	}
+        }
+        
+        
+        
+        
         return new Path(graph, arcs);
     }
 
@@ -201,8 +219,22 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        if (this.isEmpty()) {
+        	return true;
+        }
+        else if (this.size() == 1) {
+        	return true;
+        }
+        else {
+        	Node Origin = this.getOrigin();
+        	for (Arc My_Arc : this.arcs) {
+        		if (!Origin.equals(My_Arc.getOrigin())){
+        			return false;
+        		}
+        		Origin = My_Arc.getDestination();
+        	}
+        	return true;
+        }
     }
 
     /**
@@ -210,11 +242,13 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+        float Length = 0.0f;
+        for (Arc My_Arc : this.arcs) {
+        	Length += My_Arc.getLength();
+        }
+        return Length;
     }
 
     /**
@@ -225,11 +259,13 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+        double Travel_time = 0.0;
+        double Speed_converted = speed * (1000.0/3600.0); //convertir la vitesse en m/s
+        float Length = getLength();
+        Travel_time = Length / Speed_converted;
+        return Travel_time;
     }
 
     /**
@@ -238,11 +274,13 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+        double Time = 0.0;
+        for (Arc My_Arc : this.arcs) {
+        	Time += My_Arc.getMinimumTravelTime();
+        }
+        return Time;
     }
 
 }
