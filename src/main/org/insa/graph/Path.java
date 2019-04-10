@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
+import java.util.Iterator;
 
 /**
  * <p>
@@ -19,7 +21,11 @@ import java.util.List;
  */
 public class Path {
 
+<<<<<<< HEAD
    
+=======
+    //private static final boolean = false;
+>>>>>>> a16a369dcdebf8461b712f8c4c56d797096fa997
 
 	/**
      * Create a new path that goes through the given list of nodes (in order),
@@ -33,13 +39,13 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
     		throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        boolean Fatest_Path = false;
-        Arc Fatest_Arc = null;
+        boolean Fastest_Path = false;
+        Arc Fastest_Arc = null;
         if (nodes.size() == 0) { //il y a aucun noeud 
         	return new Path(graph);
         }
@@ -47,15 +53,34 @@ public class Path {
         	return new Path(graph, nodes.get(0));
         }
         else { // il y a au moins 2 noeud
-        	for (Node My_node : this.nodes) {
-        		
+        	Iterator<Node> NodeIter = nodes.iterator();
+        	Node Origin = NodeIter.next();
+        	while (NodeIter.hasNext()) {
+        		Node Next = NodeIter.next();
+        		Iterator <Arc> ArcIter = Origin.iterator();
+        		while (ArcIter.hasNext()) {
+        			Arc arc = ArcIter.next();
+        			if (arc.getDestination().equals(Next)) {
+        				if (!Fastest_Path) {
+        					Fastest_Arc = arc;
+        					Fastest_Path = true;
+        				}
+        				else if (arc.getMinimumTravelTime() < Fastest_Arc.getMinimumTravelTime()) {
+        					Fastest_Arc = arc;
+        				}
+        			}
+        		}
+        		if (Fastest_Arc == null) {
+        			throw new IllegalArgumentException();
+        		}
+        		else {
+        			arcs.add(Fastest_Arc);
+        			Origin = Next;
+        			Fastest_Path = false;
+        		}
         	}
+        	 return new Path(graph, arcs);
         }
-        
-        
-        
-        
-        return new Path(graph, arcs);
     }
 
     /**
@@ -318,7 +343,6 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
      */
     public boolean isValid() {
         if (this.isEmpty()) {
