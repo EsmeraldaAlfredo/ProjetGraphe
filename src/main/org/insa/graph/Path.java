@@ -21,11 +21,6 @@ import java.util.Iterator;
  */
 public class Path {
 
-<<<<<<< HEAD
-   
-=======
-    //private static final boolean = false;
->>>>>>> a16a369dcdebf8461b712f8c4c56d797096fa997
 
 	/**
      * Create a new path that goes through the given list of nodes (in order),
@@ -155,55 +150,6 @@ public class Path {
 			return new Path(graph, arcs);
 	}
 
-
-			/*	Iterator<Node> nodeIte = nodes.iterator();
-				
-				Node noeud_orig = nodeIte.next();
-	
-				//Parcourir  les noeuds 
-				while (nodeIte.hasNext()) {
-					
-					Node noeud_dest = nodeIte.next();
-	
-					//Parcourir des arcs 
-					Iterator <Arc> arcIter = noeud_orig.iterator();
-	
-					while (arcIter.hasNext()) {
-						Arc arc = arcIter.next();
-						
-						// Teste si l'arc mene bien au noeud souhaite
-						
-						if (arc.getDestination().equals(noeud_dest)) {
-							/*
-							 * Si c'est le premier arc que l'on considere, 
-							 * on initialise arc_rapide avec cet arc
-							 */
-							/*if (!arc_init) {
-								arc_rapide = arc;
-								arc_init = true;
-							}
-							//l'arc avec plus court
-							else if (arc.getMinimumTravelTime() < arc_rapide.getMinimumTravelTime()) {
-								arc_rapide = arc;
-							}
-						}
-					}*/
-					//liste de noeuds invalide 
-				/*	if (arc_rapide == null) {
-						throw new IllegalArgumentException();
-					}
-					// on ajoute l'arc le plus rapide 
-					else {
-						arcs.add(arc_rapide);
-						noeud_orig = noeud_dest;
-						arc_init = false;
-					}
-				}
-				return new Path(graph, arcs);
-			}
-		}*/
-
-    
 
     /**
      * Concatenate the given paths.
