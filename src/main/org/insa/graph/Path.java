@@ -20,7 +20,7 @@ import java.util.Iterator;
  */
 public class Path {
 
-    private static final boolean  = false;
+    //private static final boolean = false;
 
 	/**
      * Create a new path that goes through the given list of nodes (in order),
@@ -34,7 +34,7 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     * 
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
     		throws IllegalArgumentException {
