@@ -96,8 +96,6 @@ public class Path {
             throws IllegalArgumentException {
         	List<Arc> arcs = new ArrayList<Arc>();
 
- 
-
 			boolean arc_init = false;
 			Arc arc_rapide = null;
 	
