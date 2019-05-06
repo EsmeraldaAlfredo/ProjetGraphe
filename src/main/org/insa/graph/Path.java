@@ -109,14 +109,20 @@ public class Path {
 			}
 			// Au moins deux noeuds 
 			else {
-				Node noeud_orig= null;
-				Node noeud_dest;
+				Iterator<Node> nodeIte = nodes.iterator();
+				Node noeud_orig= nodeIte.next();
 				
-				for(Node n : nodes) {
+				
+				while(nodeIte.hasNext()) {
 					
-					noeud_dest = n;
+					Node noeud_dest = nodeIte.next();
 					
-					for (Arc arc: n.getSuccessors()) {
+					Iterator<Arc> arcIte = noeud_orig.iterator();
+			
+					
+					while(arcIte.hasNext()) {
+						
+						Arc arc= arcIte.next();
 						
 						if (arc.getDestination().equals(noeud_dest)) {
 							/*
@@ -144,8 +150,11 @@ public class Path {
 						arc_init = false;
 					}
 				}
-				}
-			return new Path(graph, arcs);
+				
+				return new Path(graph, arcs);
+				
+			}
+			
 	}
 
 
