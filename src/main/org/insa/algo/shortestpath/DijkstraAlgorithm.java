@@ -22,6 +22,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // TODO:
         Label[]
         Label label;
+        BinaryHeap tas;èu__
+        Node sommet;
+        
         return solution;
     }
 

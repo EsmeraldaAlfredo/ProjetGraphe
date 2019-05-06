@@ -115,30 +115,35 @@ public class Path {
 				
 				while(nodeIte.hasNext()) {
 					
+					//noeud_orig=noeud_dest;
 					Node noeud_dest = nodeIte.next();
 					
 					Iterator<Arc> arcIte = noeud_orig.iterator();
 			
+					arc_rapide = noeud_orig.getSuccessors().get(0);
 					
 					while(arcIte.hasNext()) {
 						
 						Arc arc= arcIte.next();
+						
 						
 						if (arc.getDestination().equals(noeud_dest)) {
 							/*
 							 * Si c'est le premier arc que l'on considere, 
 							 * on initialise arc_rapide avec cet arc
 							 */
-							if (!arc_init) {
-								arc_rapide = arc;
-								arc_init = true;
-							}
+							System.out.println(arc.getMinimumTravelTime()+" < "+arc_rapide.getMinimumTravelTime());
 							//l'arc avec plus court
-							else if (arc.getMinimumTravelTime() < arc_rapide.getMinimumTravelTime()) {
+							 if (arc.getMinimumTravelTime() < arc_rapide.getMinimumTravelTime()) {
 								arc_rapide = arc;
 							}
 						}
+						if (arc_rapide == null) {
+							throw new IllegalArgumentException();
+						}
 					}
+					
+					
 					//liste de noeuds invalide 
 					if (arc_rapide == null) {
 						throw new IllegalArgumentException();
@@ -151,6 +156,7 @@ public class Path {
 					}
 				}
 				
+				System.out.println("________________");
 				return new Path(graph, arcs);
 				
 			}
@@ -209,7 +215,7 @@ public class Path {
     public Path(Graph graph) {
         this.graph = graph;
         this.origin = null;
-        this.arcs = new ArrayList<>();
+        this.arcs = new ArrayList<Arc>();
     }
 
     /**
@@ -221,7 +227,7 @@ public class Path {
     public Path(Graph graph, Node node) {
         this.graph = graph;
         this.origin = node;
-        this.arcs = new ArrayList<>();
+        this.arcs = new ArrayList<Arc>();
     }
 
     /**
