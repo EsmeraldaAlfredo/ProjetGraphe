@@ -5,7 +5,7 @@ import org.insa.graph.Node;
 import org.insa.algo.utils.*;
 
 
-public class Label {
+public class Label implements Comparable<Label> {
 	private Node sommet_courant; 
 	private boolean marque; // vrai si le noeud est marqué
 	private float cout;
@@ -51,6 +51,10 @@ public class Label {
 		this.marque = true;
 	}
 	
+	public void SetInTas() {
+		this.InTas = true;
+	}
+	
 	public void SetCost(float cost) {
 		this.cout = cost;
 	}
@@ -72,6 +76,13 @@ public class Label {
 		}
 		return res;
 	}
+	
+
+	@Override
+	public int compareTo(Label o) {
+		return Double.compare(this.cout, o.cout);
+	}
+	
 	
 	
 	
