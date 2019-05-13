@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Vector;
 import java.util.Iterator;
 
@@ -92,76 +93,61 @@ public class Path {
      * 
      *
      */
+      
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
-            throws IllegalArgumentException {
+    		throws IllegalArgumentException {
+        
+       
+        if (nodes.size() == 0) { //il y a aucun noeud 
+        	return new Path(graph);
+        }
+        else if (nodes.size() ==1 ) { // il y a un seul noeud
+        	return new Path(graph, nodes.get(0));
+        }
+        else { // il y a au moins 2 noeud
+        	
         	List<Arc> arcs = new ArrayList<Arc>();
-
-			boolean arc_init = false;
-			Arc arc_rapide = null;
-	
-			// il y a aucun noeud 
-			if (nodes.size() == 0) {
-				return new Path(graph);
-			}
-			// il y a un seul noeud 
-			else if (nodes.size() == 1) {
-				return new Path(graph, nodes.get(0));
-			}
-			// Au moins deux noeuds 
-			else {
-				Iterator<Node> nodeIte = nodes.iterator();
-				Node noeud_orig= nodeIte.next();
-				
-				
-				while(nodeIte.hasNext()) {
-					
-					//noeud_orig=noeud_dest;
-					Node noeud_dest = nodeIte.next();
-					
-					Iterator<Arc> arcIte = noeud_orig.iterator();
-			
-					arc_rapide = noeud_orig.getSuccessors().get(0);
-					
-					while(arcIte.hasNext()) {
-						
-						Arc arc= arcIte.next();
-						
-						
-						if (arc.getDestination().equals(noeud_dest)) {
-							/*
-							 * Si c'est le premier arc que l'on considere, 
-							 * on initialise arc_rapide avec cet arc
-							 */
-							System.out.println(arc.getMinimumTravelTime()+" < "+arc_rapide.getMinimumTravelTime());
-							//l'arc avec plus court
-							 if (arc.getMinimumTravelTime() < arc_rapide.getMinimumTravelTime()) {
-								arc_rapide = arc;
-							}
-						}
-						if (arc_rapide == null) {
-							throw new IllegalArgumentException();
-						}
-					}
-					
-					
-					//liste de noeuds invalide 
-					if (arc_rapide == null) {
-						throw new IllegalArgumentException();
-					}
-					// on ajoute l'arc le plus rapide 
-					else {
-						arcs.add(arc_rapide);
-						noeud_orig = noeud_dest;
-						arc_init = false;
-					}
-				}
-				
-				System.out.println("________________");
-				return new Path(graph, arcs);
-				
-			}
-			
-	}
+        	ListIterator<Node> NodeIter = nodes.listIterator();
+        	Node node_precedent= null;
+        	Node node_actuel= NodeIter.next();
+             
+        	//
+        	
+        	
+        	while (NodeIter.hasNext()) {
+        		node_precedent= node_actuel;
+        		node_actuel  = NodeIter.next();
+        		
+        		List<Arc> sucessors = node_precedent.getSuccessors();
+        		ListIterator <Arc> ArcIter = sucessors.listIterator();
+        		Arc actuel_arc = null;
+        		Arc shortest_arc = null;
+        		float longuer=0;
+        		
+        		while (ArcIter.hasNext()) {
+        			actuel_arc = ArcIter.next();
+        			
+        			if (actuel_arc.getDestination()== node_actuel) {
+        				
+        				if (longuer==0 || actuel_arc.getLength()<=longuer) {
+        					shortest_arc = actuel_arc;
+        					longuer= shortest_arc.getLength();
+        					}
+        			}
+        		}
+        		if (shortest_arc != null) {
+        			arcs.add(shortest_arc);
+        			
+        		}
+        		else {
+        			
+        			throw new IllegalArgumentException();
+        		}
+        	}
+        	
+        	 return new Path(graph, arcs);
+        }
+    }
 
 
     /**
