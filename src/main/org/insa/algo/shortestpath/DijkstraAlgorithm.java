@@ -10,9 +10,11 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	int NbrSommetsVisites;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        this.NbrSommetsVisites = 0;
     }
 
     @Override
@@ -61,6 +63,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			notifyNodeReached(IteArc.getDestination());
         			SuccessorLabel = new Label(successor);
         			tabLabel[SuccessorLabel.GetNode().getId()] = SuccessorLabel;
+        			++ this.NbrSommetsVisites;
         		}
         		// s'il n'est pas marqué
         		if (!SuccessorLabel.GetMarque()) {
