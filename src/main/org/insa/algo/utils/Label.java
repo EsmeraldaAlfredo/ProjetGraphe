@@ -76,11 +76,24 @@ public class Label implements Comparable<Label> {
 		}
 		return res;
 	}
-	
+
+	public float getTotalCost() {
+		return this.cout;
+	}
 
 	@Override
 	public int compareTo(Label o) {
-		return Double.compare(this.cout, o.cout);
+		int resultat;
+		if (this.getTotalCost() < o.getTotalCost() ) {
+			resultat = -1;
+		}
+		else if (this.getTotalCost() == o.getTotalCost() ) {
+			resultat = 0;
+		}
+		else {
+			resultat = 1;
+		}
+		return resultat;
 	}
 	
 	
