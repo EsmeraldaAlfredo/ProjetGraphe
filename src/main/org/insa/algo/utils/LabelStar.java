@@ -2,15 +2,13 @@ package org.insa.algo.utils;
 
 import org.insa.graph.Node;
 import org.insa.algo.shortestpath.ShortestPathData;
-//import org.insa.graph.Arc;
-import org.insa.algo.utils.*;
+//import org.insa.algo.utils.*;
 import org.insa.algo.AbstractInputData;
 import org.insa.graph.Point;
 import java.lang.Math;
 
 public class LabelStar  extends Label implements Comparable<Label> {
 	private float cout_estime;
-	
 	
 	public LabelStar(Node noeud, ShortestPathData data) {
 		super(noeud);

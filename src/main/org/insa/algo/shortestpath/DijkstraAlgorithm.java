@@ -64,7 +64,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			notifyNodeReached(IteArc.getDestination());
         			SuccessorLabel = new Label(successor);
         			tabLabel[SuccessorLabel.GetNode().getId()] = SuccessorLabel;
-        			++ this.NbrSommetsVisites;
+        			this.NbrSommetsVisites ++;
         		}
         		// s'il n'est pas marqué
         		if (!SuccessorLabel.GetMarque()) {
@@ -110,6 +110,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         return solution;
     }
+    // Retourner le nbr de sommets visités
+    public int getNbSommetsVisites() {
+    	return this.NbrSommetsVisites;
+    }
+    
+    protected Label newLabel(Node node, ShortestPathData data) {
+		return new Label(node);
+	}
 }
 
 

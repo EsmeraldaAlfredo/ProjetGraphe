@@ -11,6 +11,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
     }
+    
     protected Label label(Node node, ShortestPathData data) {
     	return new LabelStar(node,data);
 		
