@@ -1,5 +1,7 @@
 package org.insa.performance;
 
 public class Write {
-// à faire
+	private String name;
+	private String map;
+	
 }
