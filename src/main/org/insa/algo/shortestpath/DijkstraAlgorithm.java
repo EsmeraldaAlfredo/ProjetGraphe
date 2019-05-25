@@ -2,114 +2,120 @@ package org.insa.algo.shortestpath;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
-import org.insa.algo.AbstractSolution.Status;
-import org.insa.algo.utils.BinaryHeap;
 import org.insa.algo.utils.Label;
-import org.insa.graph.Arc;
-import org.insa.graph.Graph;
-import org.insa.graph.Node;
-import org.insa.graph.Path; 
-
+import org.insa.graph.*;
+import org.insa.algo.AbstractSolution.Status;
+import org.insa.algo.utils.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	int NbrSommetsVisites;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        this.NbrSommetsVisites = 0;
     }
 
-    public long Duration = 0;
-    
     @Override
     protected ShortestPathSolution doRun() {
+    	
         ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
-
-        //Retrieve the graph.
-        Graph graph = data.getGraph();
-        
-        final int nbNodes = graph.size();
-        
-        //Initialize array of distances.
-        //Initialize array of predecessors.
-        //Initialize array of marks.
-        Label [] labels = new Label[nbNodes];
-        for (int i=0;i<nbNodes;i++) {
-        	labels[i] = new Label(i,Double.POSITIVE_INFINITY,null,false);
-        }
-        labels[data.getOrigin().getId()].setCost(0);
-       
-        //Notify observes about the first event (origin processed).
+        boolean fin = false;
+        Graph graphe = data.getGraph();
+        int TailleGraphe = graphe.size();
+        /* table des labels*/
+        Label tabLabel[] = new Label[TailleGraphe];
+        /*tas de label*/
+        BinaryHeap<Label> tas = new BinaryHeap<Label>();
+        /* table des prédécesseurs*/
+        Arc[] PredecessorArc = new Arc[TailleGraphe];
+        // Initialiser sommet
+        Label deb = new Label(data.getOrigin());
+        tabLabel[(deb.GetNode().getId())] = deb;
+        tas.insert(deb);
+        deb.SetInTas();
+        deb.SetCost(0);
+        // Notifier les observeurs le premier élément
         notifyOriginProcessed(data.getOrigin());
-                
-        //Algorithm of Dijkstra. 
-        BinaryHeap <Label> queue = new BinaryHeap<Label>();
-        queue.insert(labels[data.getOrigin().getId()]);
-
-        //While there are some unmarked nodes
-        long begin = System.currentTimeMillis();
-        while (!queue.isEmpty() && !labels[data.getDestination().getId()].getMark() ){
-
-        	//Find the minimum of the table "Distances"
-        	int costMin = queue.findMin().getId();
-        	queue.deleteMin();
-        	labels[costMin].setMark(true);
-
-        	Node markedNode = graph.get(labels[costMin].getId());
-        	for (Arc arc : markedNode) {
-        		
-				// Small test to check allowed roads...
-				if (!data.isAllowed(arc)) {
-					continue;
-				}
-				
-				// Retrieve weight of the arc.
-				double w = data.getCost(arc);
-				double oldDistance = labels[arc.getDestination().getId()].getCost();
-				double newDistance = labels[markedNode.getId()].getCost() + w;
-				
-				if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
-					notifyNodeReached(arc.getDestination());
-				}
-				
-				// Check if new distances would be better, if so update...
-				if (newDistance < oldDistance) {
-					labels[arc.getDestination().getId()].setCost(newDistance);
-					labels[arc.getDestination().getId()].setFather(arc);
-					//if this node doesn't exist in the queue, we insert it into the queue
-					//else update it, In fact, since the binary heap is automatically sorted,
-					//we only need to insert labels with new better distance in it
-					//without removing the old ones
-					queue.insert(labels[arc.getDestination().getId()]);
-				}
+        // tant qu'il existe des sommets non marqués
+        while (!tas.isEmpty() && !fin) {
+        	Label CurrentLabel = tas.deleteMin();
+        	// Notifier les observeurs que le Node a été marqué
+        	notifyNodeMarked(CurrentLabel.GetNode());
+        	CurrentLabel.SetMarque();
+        	// on s'arrête quand on atteint la fin
+        	if (CurrentLabel.GetNode() == data.getDestination()) {
+        		// Notifier les observeurs qu'on atteint la fin
+        		notifyDestinationReached(CurrentLabel.GetNode());
+        		fin = true;
         	}
+        	// parcours les successeurs de CurrentLabel
+        	Iterator <Arc> arc = CurrentLabel.GetNode().iterator();
+        	while (arc.hasNext()) {
+        		Arc IteArc = arc.next();
+        		Node successor = IteArc.getDestination();
+        		//récupérer le label correspondant dans table de Label
+        		Label SuccessorLabel = tabLabel[successor.getId()];
+        		// si label n'existe pas, on le crée
+        		if (SuccessorLabel == null) {
+        			//informer qu'on atteint ce Node la 1ère fois
+        			notifyNodeReached(IteArc.getDestination());
+        			SuccessorLabel = new Label(successor);
+        			tabLabel[SuccessorLabel.GetNode().getId()] = SuccessorLabel;
+        			this.NbrSommetsVisites ++;
+        		}
+        		// s'il n'est pas marqué
+        		if (!SuccessorLabel.GetMarque()) {
+        			if (SuccessorLabel.GetCost() > CurrentLabel.GetCost() + data.getCost(IteArc)) {
+        				SuccessorLabel.SetCost(CurrentLabel.GetCost() + (float)data.getCost(IteArc));
+        				//si le label est déjà dans le tas -> remove
+        				if (SuccessorLabel.GetInTas()) {
+        					tas.remove(SuccessorLabel);
+        				}
+        				//sinon on y ajoute label dans 
+        				else 
+        				{
+        					SuccessorLabel.SetInTas();
+        				}
+        				tas.insert(SuccessorLabel);
+        				PredecessorArc[IteArc.getDestination().getId()] = IteArc;
+        			}
+        		}
+        	}  
         }
-              
-        //Destination has no predecessor, the solution is infeasible...  
-        if (labels[data.getDestination().getId()].getFather() == null) {
-        	solution = new ShortestPathSolution (data, Status.INFEASIBLE);
-        }else {
-        	
-        	// The destination has been found, notify the observers.
-        	notifyDestinationReached (data.getDestination());
-        	
-        	//Create the path from the array of predecessors...
-        	ArrayList <Arc> arcs = new ArrayList<Arc>();
-        	Arc arc = labels[data.getDestination().getId()].getFather();
-        	while (arc != null) {
-        		arcs.add(arc);
-        		arc = labels[arc.getOrigin().getId()].getFather();
-        	}
-        	
-        	//Reserve the path...
-        	Collections.reverse(arcs);
-        	
-        	//Create the final solution
-        	solution = new ShortestPathSolution(data,Status.OPTIMAL, new Path(graph,arcs));
+        // Destination has no predecessor, the solution is infeasible...
+        if (PredecessorArc[data.getDestination().getId()] == null) {
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
-        this.Duration = System.currentTimeMillis() - begin;
+        else {
 
+            // The destination has been found, notify the observers.
+            notifyDestinationReached(data.getDestination());
+
+            // Create the path from the array of predecessors...
+            ArrayList<Arc> arcs = new ArrayList<>();
+            Arc arc = PredecessorArc[data.getDestination().getId()];
+            while (arc != null) {
+                arcs.add(arc);
+                arc = PredecessorArc[arc.getOrigin().getId()];
+            }
+
+            // Reverse the path...
+            Collections.reverse(arcs);
+
+            // Create the final solution.
+            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graphe, arcs));
+        }
         return solution;
     }
-
+    // Retourner le nbr de sommets visités
+    public int getNbSommetsVisites() {
+    	return this.NbrSommetsVisites;
+    }
+    
+    protected Label newLabel(Node node, ShortestPathData data) {
+		return new Label(node);
+	}
 }
