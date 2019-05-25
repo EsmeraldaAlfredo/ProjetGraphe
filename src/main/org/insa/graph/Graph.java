@@ -2,6 +2,7 @@ package org.insa.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * </p>
  *
  */
-public final class Graph {
+public final class Graph implements Iterable<Node> {
 
     // Map identifier.
     private final String mapId;
@@ -127,5 +128,10 @@ public final class Graph {
         return String.format("%s[id=%s, name=%s, #nodes=%d]", getClass().getCanonicalName(),
                 getMapId(), getMapName(), size());
     }
+
+	@Override
+	public Iterator<Node> iterator() {
+		return this.nodes.iterator();
+	}
 
 }

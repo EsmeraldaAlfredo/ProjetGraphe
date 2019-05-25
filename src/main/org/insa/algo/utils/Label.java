@@ -1,78 +1,70 @@
 package org.insa.algo.utils;
 
-import org.insa.graph.Node;
-//import org.insa.graph.Arc;
-//import org.insa.algo.utils.*;
+import org.insa.graph.Arc;
 
 
-public class Label implements Comparable<Label> {
-	private Node sommet_courant; 
-	private boolean marque; // vrai si le noeud est marqué
-	private float cout;
-	private Node pere;
-	private boolean InTas; // vrai si le noeud est dans le tas
-
+public class Label implements Comparable<Label>{
+	protected int id;
+	protected double cost;
+	protected Arc father;
+	protected boolean mark;
 	
-	public Label(Node noeud) {
-		this.sommet_courant = noeud;
-		this.marque = false;
-		this.cout = Float.POSITIVE_INFINITY;
-		this.pere = null;
-		this.InTas = false;
+	public Label(int id, double cost, Arc father, boolean mark) {
+		this.id = id;
+		this.cost = cost;
+		this.father = father;
+		this.mark = mark;
 	}
 	
-	public float GetCost() {
-		return this.cout;
+	public int getId() {
+		return this.id;
 	}
 	
-	public Node GetNode() {
-		return this.sommet_courant;
-	}
-	public boolean GetMarque() {
-		return this.marque;
+	public Arc getFather() {
+		return this.father;
 	}
 	
-	public Node GetPere() {
-		return this.pere;
+	public void setFather(Arc father) {
+		this.father = father;
 	}
 	
-	public boolean GetInTas() {
-		return this.InTas;
+	public boolean getMark() {
+		return mark;
 	}
 	
-	public void SetMarque(){
-		this.marque = true;
+	public void setMark(boolean mark) {
+		this.mark=mark;
 	}
 	
-	public void SetInTas() {
-		this.InTas = true;
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 	
-	public void SetCost(float cost) {
-		this.cout = cost;
+	public double getCost () {
+		return this.cost;
 	}
 	
-	public void SetPere(Node noeud) {
-		this.pere = noeud;
-	}
-
-	public float getTotalCost() {
-		return this.cout;
+	public double getCostEstimate() {
+		return 0;
 	}
 
 	@Override
 	public int compareTo(Label o) {
 		int resultat;
-		if (this.getTotalCost() < o.getTotalCost() ) {
+		if (this.getCost() < o.getCost() ) {
 			resultat = -1;
 		}
-		else if (this.getTotalCost() == o.getTotalCost() ) {
+		else if (this.getCost() == o.getCost() ) {
 			resultat = 0;
 		}
 		else {
 			resultat = 1;
 		}
 		return resultat;
+	}
+	
+	public String toString() {
+		return "id = " + this.id + ", cost = " + this.cost + ", father =  " + this.father + ", mark = "+ this.mark; 
 	}
 	
 	

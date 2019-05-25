@@ -20,7 +20,7 @@ import java.util.List;
  * </p>
  *
  */
-public final class Node implements Comparable<Node> {
+public final class Node implements Comparable<Node>, Iterable<Arc> {
 
     /**
      * <p>

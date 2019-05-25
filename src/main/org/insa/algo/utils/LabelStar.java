@@ -1,29 +1,35 @@
 package org.insa.algo.utils;
 
-import org.insa.graph.Node;
-import org.insa.algo.shortestpath.ShortestPathData;
-//import org.insa.algo.utils.*;
-import org.insa.algo.AbstractInputData;
-import org.insa.graph.Point;
-import java.lang.Math;
+import org.insa.graph.Arc;
 
-public class LabelStar  extends Label implements Comparable<Label> {
-	private float cout_estime;
+public class LabelStar extends Label  {
 	
-	public LabelStar(Node noeud, ShortestPathData data) {
-		super(noeud);
-		if(data.getMode()== AbstractInputData.Mode.LENGTH) {
-		this.cout_estime=(float) Point.distance(noeud.getPoint(),data.getDestination().getPoint());
-	   }
-		else {
-			int vitesse= Math.max(data.getMaximumSpeed(),data.getGraph().getGraphInformation().getMaximumSpeed());
-			this.cout_estime= (float) Point.distance(noeud.getPoint(),data.getDestination().getPoint()) *( vitesse*1000.0f/3600.0f);
-			
-		}
+	private double costEstimate; // the estimated cost between the given node and the destination based on the skyway
+	
+	public LabelStar(int id, double cost, Arc father, boolean mark) {
+		super(id,cost,father,mark);
+		this.costEstimate = 0.0;
 	}
+	
+	public LabelStar(int id, double cost, Arc father, boolean mark, double costEstimate) {
+		super(id,cost,father,mark);
+		this.costEstimate = costEstimate;
+	}	
+	
 	@Override
-
-	public float getTotalCost() {
-		return this.cout_estime + this.getTotalCost();
+	public double getCostEstimate() {
+		return this.costEstimate;
 	}
+	
+	@Override
+	public double getCost () {
+		return this.cost +this.costEstimate; 
+	}
+	
+	
+	@Override 
+	public String toString() {
+		return super.toString() + ", costEstimate = " + this.costEstimate; 
+	}
+	
 }
