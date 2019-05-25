@@ -12,7 +12,7 @@ import org.insa.graph.RoadInformation.RoadType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ShortestPathTest {
+public class ShortestPathTestDijkstra {
 	protected static ArcInspector arcInspector;
 	
 	private static Graph graph;
