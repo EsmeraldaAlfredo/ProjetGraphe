@@ -7,22 +7,22 @@ import org.insa.graph.Point;
 import java.lang.Math;
 
 public class LabelStar  extends Label implements Comparable<Label> {
-	private float cout_estime;
+	private float estimated_cost;
 	
-	public LabelStar(Node noeud, ShortestPathData data) {
-		super(noeud);
+	public LabelStar(Node node, ShortestPathData data) {
+		super(node);
 		if(data.getMode()== AbstractInputData.Mode.LENGTH) {
-		this.cout_estime=(float) Point.distance(noeud.getPoint(),data.getDestination().getPoint());
+		this.estimated_cost=(float) Point.distance(node.getPoint(),data.getDestination().getPoint());
 	   }
 		else {
 			int vitesse= Math.max(data.getMaximumSpeed(),data.getGraph().getGraphInformation().getMaximumSpeed());
-			this.cout_estime= (float) Point.distance(noeud.getPoint(),data.getDestination().getPoint()) *( vitesse*1000.0f/3600.0f);
+			this.estimated_cost= (float) Point.distance(node.getPoint(),data.getDestination().getPoint()) *( vitesse*1000.0f/3600.0f);
 			
 		}
 	}
 	@Override
 
 	public float getTotalCost() {
-		return this.cout_estime + this.getTotalCost();
+		return this.estimated_cost + this.getTotalCost();
 	}
 }
