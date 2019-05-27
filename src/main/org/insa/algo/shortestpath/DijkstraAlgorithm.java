@@ -33,26 +33,26 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Arc[] PredecessorArc = new Arc[TailleGraphe];
         // Initialiser sommet
         Label deb = new Label(data.getOrigin());
-        tabLabel[(deb.GetNode().getId())] = deb;
+        tabLabel[(deb.getNode().getId())] = deb;
         tas.insert(deb);
-        deb.SetInTas();
-        deb.SetCost(0);
+        deb.setInTas();
+        deb.setCost(0);
         // Notifier les observeurs le premier élément
         notifyOriginProcessed(data.getOrigin());
         // tant qu'il existe des sommets non marqués
         while (!tas.isEmpty() && !fin) {
         	Label CurrentLabel = tas.deleteMin();
         	// Notifier les observeurs que le Node a été marqué
-        	notifyNodeMarked(CurrentLabel.GetNode());
-        	CurrentLabel.SetMarque();
+        	notifyNodeMarked(CurrentLabel.getNode());
+        	CurrentLabel.setMarked();
         	// on s'arrête quand on atteint la fin
-        	if (CurrentLabel.GetNode() == data.getDestination()) {
+        	if (CurrentLabel.getNode() == data.getDestination()) {
         		// Notifier les observeurs qu'on atteint la fin
-        		notifyDestinationReached(CurrentLabel.GetNode());
+        		notifyDestinationReached(CurrentLabel.getNode());
         		fin = true;
         	}
         	// parcours les successeurs de CurrentLabel
-        	Iterator <Arc> arc = CurrentLabel.GetNode().iterator();
+        	Iterator <Arc> arc = CurrentLabel.getNode().iterator();
         	while (arc.hasNext()) {
         		Arc IteArc = arc.next();
         		Node successor = IteArc.getDestination();
@@ -63,21 +63,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			//informer qu'on atteint ce Node la 1ère fois
         			notifyNodeReached(IteArc.getDestination());
         			SuccessorLabel = new Label(successor);
-        			tabLabel[SuccessorLabel.GetNode().getId()] = SuccessorLabel;
+        			tabLabel[SuccessorLabel.getNode().getId()] = SuccessorLabel;
         			this.NbrSommetsVisites ++;
         		}
         		// s'il n'est pas marqué
-        		if (!SuccessorLabel.GetMarque()) {
-        			if (SuccessorLabel.GetCost() > CurrentLabel.GetCost() + data.getCost(IteArc)) {
-        				SuccessorLabel.SetCost(CurrentLabel.GetCost() + (float)data.getCost(IteArc));
+        		if (!SuccessorLabel.getMarked()) {
+        			if (SuccessorLabel.getCost() > CurrentLabel.getCost() + data.getCost(IteArc)) {
+        				SuccessorLabel.setCost(CurrentLabel.getCost() + (float)data.getCost(IteArc));
         				//si le label est déjà dans le tas -> remove
-        				if (SuccessorLabel.GetInTas()) {
+        				if (SuccessorLabel.getInTas()) {
         					tas.remove(SuccessorLabel);
         				}
         				//sinon on y ajoute label dans 
         				else 
         				{
-        					SuccessorLabel.SetInTas();
+        					SuccessorLabel.setInTas();
         				}
         				tas.insert(SuccessorLabel);
         				PredecessorArc[IteArc.getDestination().getId()] = IteArc;

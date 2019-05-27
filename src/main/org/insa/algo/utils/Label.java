@@ -6,58 +6,58 @@ import org.insa.graph.Node;
 
 
 public class Label implements Comparable<Label> {
-	private Node sommet_courant; 
-	private boolean marque; // vrai si le noeud est marqué
-	private float cout;
-	private Node pere;
+	private Node current_node; 
+	private boolean marked; // vrai si le noeud est marqué
+	private float cost;
+	private Node father;
 	private boolean InTas; // vrai si le noeud est dans le tas
 
 	
-	public Label(Node noeud) {
-		this.sommet_courant = noeud;
-		this.marque = false;
-		this.cout = Float.POSITIVE_INFINITY;
-		this.pere = null;
+	public Label(Node node) {
+		this.current_node = node;
+		this.marked = false;
+		this.cost = Float.POSITIVE_INFINITY;
+		this.father = null;
 		this.InTas = false;
 	}
 	
-	public float GetCost() {
-		return this.cout;
+	public float getCost() {
+		return this.cost;
 	}
 	
-	public Node GetNode() {
-		return this.sommet_courant;
+	public Node getNode() {
+		return this.current_node;
 	}
-	public boolean GetMarque() {
-		return this.marque;
-	}
-	
-	public Node GetPere() {
-		return this.pere;
+	public boolean getMarked() {
+		return this.marked;
 	}
 	
-	public boolean GetInTas() {
+	public Node getFather() {
+		return this.father;
+	}
+	
+	public boolean getInTas() {
 		return this.InTas;
 	}
 	
-	public void SetMarque(){
-		this.marque = true;
+	public void setMarked(){
+		this.marked = true;
 	}
 	
-	public void SetInTas() {
+	public void setInTas() {
 		this.InTas = true;
 	}
 	
-	public void SetCost(float cost) {
-		this.cout = cost;
+	public void setCost(float cost) {
+		this.cost = cost;
 	}
 	
-	public void SetPere(Node noeud) {
-		this.pere = noeud;
+	public void setFather(Node noeud) {
+		this.father = noeud;
 	}
 
 	public float getTotalCost() {
-		return this.cout;
+		return this.cost;
 	}
 
 	@Override
