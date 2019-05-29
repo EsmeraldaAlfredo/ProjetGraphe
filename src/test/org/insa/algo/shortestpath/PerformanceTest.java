@@ -22,14 +22,17 @@ public class PerformanceTest{
 		
 		ArcInspector arcInspector;
 		BufferedWriter out;
+		FileWriter outCsv;
+		
 		if(type=="temps") {
 			arcInspector = ArcInspectorFactory.getAllFilters().get(2);
 			out = new BufferedWriter(new FileWriter(map+"_temps.txt"));
-			
+			outCsv = new FileWriter(map+"_temps.csv");
 		}
 		else {
 			arcInspector = ArcInspectorFactory.getAllFilters().get(0);
 			out = new BufferedWriter(new FileWriter(map+"_distance.txt"));
+			outCsv = new FileWriter(map+"_distance.csv");
 		}
 		
 		
@@ -42,7 +45,9 @@ public class PerformanceTest{
 		Graph graph = reader.read();
 		//type Evaluation
 		out.write("Map  Origin  Destination  CPUtimeDijkstra  NodesReachedD  CPUtimeAStar  NodesReachedA\n");
-
+		outCsv.append("Map,Origin,Destination,CPUtimeDijkstra,NodesReachedD,CPUtimeAStar,NodesReachedA");
+		outCsv.append("\n");
+	
 		for (int i =0;i<100;i++) {
 			int ind = i+1;
 			int a = (int)(Math.random() * graph.size()); 
@@ -59,17 +64,32 @@ public class PerformanceTest{
             out.write(ind+". "+map+"  "+a+"  "+b+"  "
             +durationD+"ms  "+algoD.getNbSommetsVisites()+"  "
             +durationA+"ms  "+algoA.getNbSommetsVisites()+"\n");
+            //Write to .csv file
+            outCsv.append(map);
+            outCsv.append(",");
+            outCsv.append(String.valueOf(a));
+            outCsv.append(",");
+            outCsv.append(String.valueOf(b));
+            outCsv.append(",");
+            outCsv.append(String.valueOf(durationD));
+            outCsv.append(",");
+            outCsv.append(String.valueOf(algoD.getNbSommetsVisites()));
+            outCsv.append(",");
+            outCsv.append(String.valueOf(durationA));
+            outCsv.append(",");
+            outCsv.append(String.valueOf(algoA.getNbSommetsVisites()));
+            outCsv.append("\n");
 		}
 		out.close();
+		outCsv.flush();
+		outCsv.close();
 	}
 	@Test
 	public void Tester() throws IOException {
 		//Test("vietnam","temps");
-		//Test("japan","temps");
 		//Test("belgium","temps");
 		Test("carre-dense","temps");
 		//Test("vietnam","distance");
-		//Test("japan","distance");
 		//Test("belgium","distance");
 		Test("carre-dense","distance");
 		
