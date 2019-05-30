@@ -10,11 +10,11 @@ import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
-	int NbrSommetsVisites;
+	int NbReachedNodes;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
-        this.NbrSommetsVisites = 0;
+        this.NbReachedNodes = 0;
     }
 
     @Override
@@ -23,58 +23,66 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
         boolean fin = false;
-        Graph graphe = data.getGraph();
-        int TailleGraphe = graphe.size();
-        /* table des labels*/
-        Label tabLabel[] = new Label[TailleGraphe];
-        /*tas de label*/
+        Graph graph = data.getGraph();
+        int SizeGraph = graph.size();
+        /* table of labels*/
+        Label tabLabel[] = new Label[SizeGraph];
+        /*tas of label*/
         BinaryHeap<Label> tas = new BinaryHeap<Label>();
-        /* table des prédécesseurs*/
-        Arc[] PredecessorArc = new Arc[TailleGraphe];
-        // Initialiser sommet
+        /* table of predecessors*/
+        Arc[] PredecessorArc = new Arc[SizeGraph];
+        // Initialize
         Label deb = new Label(data.getOrigin());
         tabLabel[(deb.getNode().getId())] = deb;
         tas.insert(deb);
         deb.setInTas();
         deb.setCost(0);
-        // Notifier les observeurs le premier élément
+        //Notify observers about the first event (origin processed)
         notifyOriginProcessed(data.getOrigin());
-        // tant qu'il existe des sommets non marqués
+        //While there are some unmarked nodes
         while (!tas.isEmpty() && !fin) {
         	Label CurrentLabel = tas.deleteMin();
-        	// Notifier les observeurs que le Node a été marqué
+        	// Notify observers that the Node is marked
         	notifyNodeMarked(CurrentLabel.getNode());
         	CurrentLabel.setMarked();
-        	// on s'arrête quand on atteint la fin
+        	// Stop when it's the end
         	if (CurrentLabel.getNode() == data.getDestination()) {
-        		// Notifier les observeurs qu'on atteint la fin
+        		// Notify observers that it's the end
         		notifyDestinationReached(CurrentLabel.getNode());
         		fin = true;
         	}
-        	// parcours les successeurs de CurrentLabel
+        	// Run through the successors of CurrentLabel
         	Iterator <Arc> arc = CurrentLabel.getNode().iterator();
         	while (arc.hasNext()) {
         		Arc IteArc = arc.next();
+        		
+        		//  check allowed roads...
+        		if (!data.isAllowed(IteArc)) {
+					continue;
+				}
         		Node successor = IteArc.getDestination();
-        		//récupérer le label correspondant dans table de Label
+        		//recorver the matching label from the table of Label
         		Label SuccessorLabel = tabLabel[successor.getId()];
-        		// si label n'existe pas, on le crée
+        		// if label doesnt exist, we create
         		if (SuccessorLabel == null) {
-        			//informer qu'on atteint ce Node la 1ère fois
+        			//inform observers that the Node is reached for the first time 
         			notifyNodeReached(IteArc.getDestination());
         			SuccessorLabel = new Label(successor);
         			tabLabel[SuccessorLabel.getNode().getId()] = SuccessorLabel;
-        			this.NbrSommetsVisites ++;
+        			this.NbReachedNodes ++;
         		}
-        		// s'il n'est pas marqué
+        		// if it isnt' marked
         		if (!SuccessorLabel.getMarked()) {
-        			if (SuccessorLabel.getCost() > CurrentLabel.getCost() + data.getCost(IteArc)) {
+        			if ((SuccessorLabel.getTotalCost() > (CurrentLabel.getCost() + data.getCost(IteArc)
+        			+ (SuccessorLabel.getTotalCost() - SuccessorLabel.getCost())))
+        			|| (SuccessorLabel.getCost()==Float.POSITIVE_INFINITY)){
         				SuccessorLabel.setCost(CurrentLabel.getCost() + (float)data.getCost(IteArc));
-        				//si le label est déjà dans le tas -> remove
+        				SuccessorLabel.setFather(CurrentLabel.getNode());
+        				//if the label is in the tas -> remove
         				if (SuccessorLabel.getInTas()) {
         					tas.remove(SuccessorLabel);
         				}
-        				//sinon on y ajoute label dans 
+        				//else -> insert
         				else 
         				{
         					SuccessorLabel.setInTas();
@@ -106,13 +114,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             Collections.reverse(arcs);
 
             // Create the final solution.
-            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graphe, arcs));
+            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
         }
         return solution;
     }
-    // Retourner le nbr de sommets visités
-    public int getNbSommetsVisites() {
-    	return this.NbrSommetsVisites;
+    // Return the number of reached node
+    public int getNbReachedNodes() {
+    	return this.NbReachedNodes;
     }
     
     protected Label newLabel(Node node, ShortestPathData data) {

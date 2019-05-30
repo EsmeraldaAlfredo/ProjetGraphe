@@ -62,8 +62,8 @@ public class PerformanceTest{
             algoA.doRun();
             long durationA = System.currentTimeMillis() - beginA;
             out.write(ind+". "+map+"  "+a+"  "+b+"  "
-            +durationD+"ms  "+algoD.getNbSommetsVisites()+"  "
-            +durationA+"ms  "+algoA.getNbSommetsVisites()+"\n");
+            +durationD+"ms  "+algoD.getNbReachedNodes()+"  "
+            +durationA+"ms  "+algoA.getNbReachedNodes()+"\n");
             //Write to .csv file
             outCsv.append(map);
             outCsv.append(",");
@@ -73,11 +73,11 @@ public class PerformanceTest{
             outCsv.append(",");
             outCsv.append(String.valueOf(durationD));
             outCsv.append(",");
-            outCsv.append(String.valueOf(algoD.getNbSommetsVisites()));
+            outCsv.append(String.valueOf(algoD.getNbReachedNodes()));
             outCsv.append(",");
             outCsv.append(String.valueOf(durationA));
             outCsv.append(",");
-            outCsv.append(String.valueOf(algoA.getNbSommetsVisites()));
+            outCsv.append(String.valueOf(algoA.getNbReachedNodes()));
             outCsv.append("\n");
 		}
 		out.close();
