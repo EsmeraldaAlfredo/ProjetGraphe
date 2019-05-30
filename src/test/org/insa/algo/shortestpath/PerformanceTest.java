@@ -87,11 +87,11 @@ public class PerformanceTest{
 	@Test
 	public void Tester() throws IOException {
 		//Test("vietnam","temps");
-		//Test("belgium","temps");
-		Test("carre-dense","temps");
+		Test("belgium","temps");
+		//Test("carre-dense","temps");
 		//Test("vietnam","distance");
-		//Test("belgium","distance");
-		Test("carre-dense","distance");
+		Test("belgium","distance");
+		//Test("carre-dense","distance");
 		
 	}
 	
