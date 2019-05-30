@@ -16,13 +16,12 @@ public class LabelStar  extends Label implements Comparable<Label> {
 	   }
 		else {
 			int vitesse= Math.max(data.getMaximumSpeed(),data.getGraph().getGraphInformation().getMaximumSpeed());
-			this.estimated_cost= (float) Point.distance(node.getPoint(),data.getDestination().getPoint()) *( vitesse*1000.0f/3600.0f);
+			this.estimated_cost = (float)Point.distance(node.getPoint(),data.getDestination().getPoint())/(vitesse*1000.0f/3600.0f);
 			
 		}
 	}
 	@Override
-
 	public float getTotalCost() {
-		return this.estimated_cost + this.getTotalCost();
+		return this.estimated_cost + this.cost;
 	}
 }

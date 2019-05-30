@@ -32,7 +32,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         /* table of predecessors*/
         Arc[] PredecessorArc = new Arc[SizeGraph];
         // Initialize
-        Label deb = new Label(data.getOrigin());
+        Label deb = newLabel(data.getOrigin(),data);
         tabLabel[(deb.getNode().getId())] = deb;
         tas.insert(deb);
         deb.setInTas();
@@ -47,8 +47,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	CurrentLabel.setMarked();
         	// Stop when it's the end
         	if (CurrentLabel.getNode() == data.getDestination()) {
-        		// Notify observers that it's the end
-        		notifyDestinationReached(CurrentLabel.getNode());
         		fin = true;
         	}
         	// Run through the successors of CurrentLabel
@@ -67,7 +65,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		if (SuccessorLabel == null) {
         			//inform observers that the Node is reached for the first time 
         			notifyNodeReached(IteArc.getDestination());
-        			SuccessorLabel = new Label(successor);
+        			SuccessorLabel = newLabel(successor,data);
         			tabLabel[SuccessorLabel.getNode().getId()] = SuccessorLabel;
         			this.NbReachedNodes ++;
         		}

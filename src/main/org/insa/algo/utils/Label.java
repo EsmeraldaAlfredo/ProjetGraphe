@@ -7,10 +7,10 @@ import org.insa.graph.Node;
 
 public class Label implements Comparable<Label> {
 	private Node current_node; 
-	private boolean marked; // vrai si le noeud est marqué
-	private float cost;
+	private boolean marked; // true if node is marked
+	protected float cost;
 	private Node father;
-	private boolean InTas; // vrai si le noeud est dans le tas
+	private boolean InTas; // true if node is in the tas
 
 	
 	public Label(Node node) {
