@@ -1,0 +1,174 @@
+
+#############Carte de Paris################
+Test de validité de Dijkstra avec Oracle 
+Mode: Temps
+origin: 4020
+destination : 6749
+cout en temps avec AStar 428.69906812259126
+cout en temps avec Belman 428.69906812259126
+ 
+Mode: Distance
+origin: 4020
+destination : 6749
+cout en distance avec Dijkstra 6973.732421875
+cout en distance avec Belman 6973.732421875
+
+
+Test de Validité  de A* avec Oracle 
+Mode: Temps
+origin: 4020
+destination : 6749
+cout avec AStar 428.69906812259126
+cout avec Belman 428.69906812259126
+
+Mode: Distance
+origin: 4020
+destination : 6749
+cout avec AStar 6973.732421875
+cout avec Belman 6973.732421875
+
+
+            CAS CHEMIN NUL
+
+Carte de Paris
+Test de validité de Dijkstra avec Oracle 
+origin: 0
+destination : 0
+cout = 0
+Test de validité de Dijkstra avec Oracle 
+origin: 0
+destination : 0
+cout = 0
+
+Test de Validité  de A* avec Oracle 
+origin: 0
+destination : 0
+cout = 0
+Teste de validité avec oracle sur une carte
+Test de Validité  de A* avec Oracle 
+origin: 0
+destination : 0
+cout = 0
+
+
+
+#########Carte de New Caledonia##################
+           CAS INEXISTANT
+
+Carte de New Caledonia
+Carte de New-caledonia
+Test de validité de Dijkstra avec Oracle 
+Mode: Temps
+origin: 35161
+destination : 38052
+pas de chemin trouvé
+
+Teste de validité avec oracle sur une carte
+Test de validité de Dijkstra avec Oracle 
+Mode: Distance
+origin: 35161
+destination : 38052
+pas de chemin trouvé
+
+Carte de New-caledonia
+Test de Validité  de A* avec Oracle 
+Mode: Temps
+origin: 35161
+destination : 38052
+pas de chemin optimal trouvé
+
+Teste de validité avec oracle sur une carte
+Test de Validité  de A* avec Oracle 
+Mode: Distance
+origin: 35161
+destination : 38052
+pas de chemin trouvé
+
+
+
+
+###################Carte de Belgique#################
+        CAS SIMPLE
+Test de validité de Dijkstra avec Oracle 
+Mode: Temps
+origin: 4510
+destination : 2510
+cout en temps avec AStar 3423.3638360602517
+cout en temps avec Belman 3423.3638360602517
+
+Mode: Distance
+origin: 4510
+destination : 2510
+cout en distance avec Dijkstra 154108.625
+cout en distance avec Belman 154108.625
+
+
+Test de validité de A* avec Oracle 
+Mode: Temps
+origin: 4510
+destination : 2510
+cout en temps avec AStar 3423.3638360602517
+cout en temps avec Belman 3423.3638360602517
+
+Mode: Distance
+origin: 4510
+destination : 2510
+cout en distance avec Dijkstra 154108.625
+cout en distance avec Belman 154108.625
+
+            CAS CHEMIN NUL
+Carte de Belgique
+Test de validité de Dijkstra avec Oracle 
+origin: 4000
+destination : 4000
+cout = 0
+Test de validité de Dijkstra avec Oracle 
+origin: 4000
+destination : 4000
+cout = 0
+
+Carte de Belgique
+Test de Validité  de A* avec Oracle 
+origin: 4000
+destination : 4000
+cout = 0
+Test de Validité  de A* avec Oracle 
+origin: 4000
+destination : 4000
+cout = 0
+
+
+
+
+###################Carte de Midi-Pyrenees############
+Test de validité de Dijkstra avec Oracle 
+Mode: Temps
+origin: 4000
+destination : 2000
+cout en temps avec Dijkstra 1166.8133237176526
+cout en temps avec Belman 1166.8133237176526
+
+Mode: Distance
+origin: 4000
+destination : 2000
+cout en distance avec Dijkstra 148769.3125
+cout en distance avec Belman 148769.3125
+
+
+Test de Validité  de A* avec Oracle 
+Mode: Temps
+origin: 45710
+destination : 25150
+cout avec AStar 5361.549193207072
+cout avec Belman 5361.549193207072
+
+Test de Validité  de A* avec Oracle 
+Mode: Distance
+origin: 45710
+destination : 25150
+cout avec AStar 148769.3125
+cout avec Belman 148769.3125
+
+
+
+
