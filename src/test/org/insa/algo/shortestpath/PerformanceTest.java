@@ -69,12 +69,7 @@ public class PerformanceTest{
             	costSolution = 0.0;
             }
             else {
-            	if(type=="temps") {
-                	costSolution = solution.getPath().getMinimumTravelTime();
-                }
-                else {
                 	costSolution = solution.getPath().getLength();
-                }
             }
             
             
@@ -106,12 +101,12 @@ public class PerformanceTest{
 	}
 	@Test
 	public void Tester() throws IOException {
-		//Test("vietnam","temps");
-		//Test("belgium","temps");
+		Test("vietnam","temps");
+		Test("belgium","temps");
 		Test("carre-dense","temps");
 		//Test("vietnam","distance");
 		//Test("belgium","distance");
-		Test("carre-dense","distance");
+		//Test("carre-dense","distance");
 		
 	}
 	
