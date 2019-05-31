@@ -44,8 +44,8 @@ public class PerformanceTest{
 		// Read the graph
 		Graph graph = reader.read();
 		//type Evaluation
-		out.write("Map  Origin  Destination  CPUtimeDijkstra  NodesReachedD  CPUtimeAStar  NodesReachedA\n");
-		outCsv.append("Map,Origin,Destination,CPUtimeDijkstra,NodesReachedD,CPUtimeAStar,NodesReachedA");
+		out.write("Map  Origin  Destination  Cout  CPUtimeDijkstra  NodesReachedD  CPUtimeAStar  NodesReachedA\n");
+		outCsv.append("Map,Origin,Destination,Cout,CPUtimeDijkstra,NodesReachedD,CPUtimeAStar,NodesReachedA");
 		outCsv.append("\n");
 	
 		for (int i =0;i<100;i++) {
@@ -55,13 +55,31 @@ public class PerformanceTest{
             ShortestPathData data = new ShortestPathData(graph, graph.get(a), graph.get(b), arcInspector);	
             DijkstraAlgorithm algoD = new DijkstraAlgorithm(data);
             AStarAlgorithm algoA = new AStarAlgorithm(data);
+            
+            
         	long beginD = System.currentTimeMillis();
             algoD.doRun();
             long durationD = System.currentTimeMillis() - beginD;
             long beginA = System.currentTimeMillis();
             algoA.doRun();
             long durationA = System.currentTimeMillis() - beginA;
+            ShortestPathSolution solution = algoA.run();
+            double costSolution = 0.0;
+            if (solution.getPath() == null) {
+            	costSolution = 0.0;
+            }
+            else {
+            	if(type=="temps") {
+                	costSolution = solution.getPath().getMinimumTravelTime();
+                }
+                else {
+                	costSolution = solution.getPath().getLength();
+                }
+            }
+            
+            
             out.write(ind+". "+map+"  "+a+"  "+b+"  "
+            +costSolution + "  "
             +durationD+"ms  "+algoD.getNbReachedNodes()+"  "
             +durationA+"ms  "+algoA.getNbReachedNodes()+"\n");
             //Write to .csv file
@@ -70,6 +88,8 @@ public class PerformanceTest{
             outCsv.append(String.valueOf(a));
             outCsv.append(",");
             outCsv.append(String.valueOf(b));
+            outCsv.append(",");
+            outCsv.append(String.valueOf(costSolution));
             outCsv.append(",");
             outCsv.append(String.valueOf(durationD));
             outCsv.append(",");
@@ -87,11 +107,11 @@ public class PerformanceTest{
 	@Test
 	public void Tester() throws IOException {
 		//Test("vietnam","temps");
-		Test("belgium","temps");
-		//Test("carre-dense","temps");
+		//Test("belgium","temps");
+		Test("carre-dense","temps");
 		//Test("vietnam","distance");
-		Test("belgium","distance");
-		//Test("carre-dense","distance");
+		//Test("belgium","distance");
+		Test("carre-dense","distance");
 		
 	}
 	
