@@ -74,6 +74,11 @@ public class Label implements Comparable<Label> {
 		}
 		return resultat;
 	}
+
+	public double getEstimatedCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 	
